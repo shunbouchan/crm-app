@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InertiaTestController;
+use App\Http\Controllers\ItemController;
 use Inertia\Inertia;
 
 /*
@@ -58,6 +59,11 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+
+
+Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
