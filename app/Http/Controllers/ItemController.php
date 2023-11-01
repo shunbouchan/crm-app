@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Http\Request;
 use App\Models\Item;
+use Inertia\Inertia;
 
 class ItemController extends Controller
 {
@@ -16,6 +18,9 @@ class ItemController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Items/Index', [
+            'items' => Item::all()
+        ]);
     }
 
     /**
@@ -26,6 +31,7 @@ class ItemController extends Controller
     public function create()
     {
         //
+        return Inertia::render('Items/Create');
     }
 
     /**
@@ -34,9 +40,23 @@ class ItemController extends Controller
      * @param  \App\Http\Requests\StoreItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(Request $request)
     {
         //
+
+        $validatedData = $request->validate([
+            'name' => ['required'],
+            'memo' => ['required'],
+            'price' => ['required', 'numeric'],
+            'is_selling' => ['required'],
+        ]);
+
+        Item::create($request->all());
+
+        return to_route('items.index')->with([
+            'message' => '登録しました。',
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -48,6 +68,7 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         //
+        return Inertia::render('Items/Show', ['item' => $item]);
     }
 
     /**
@@ -59,6 +80,7 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         //
+        return Inertia::render('Items/Edit', ['item' => $item]);
     }
 
     /**
@@ -68,9 +90,23 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(Request $request, Item $item)
     {
         //
+        $validatedData = $request->validate([
+            'name' => ['required'],
+            'memo' => ['required'],
+            'price' => ['required', 'numeric'],
+            'is_selling' => ['required'],
+        ]);
+
+        $item->name = $request->name;
+        $item->memo = $request->memo;
+        $item->price = $request->price;
+        $item->is_selling = $request->is_selling;
+        $item->save();
+
+        return to_route('items.index')->with(['message' => '更新しました。', 'status' => 'success']);
     }
 
     /**
@@ -82,5 +118,11 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+        $item->delete();
+
+        return to_route('items.index')->with([
+            'message' => '削除しました。',
+            'status' => 'danger',
+        ]);
     }
 }
