@@ -160,6 +160,13 @@ return [
         'memo' => 'メモ',
         'price' => '価格',
         'is_selling' => 'ステータス',
+        'kana' => 'フリガナ',
+        'email' => 'メールアドレス',
+        'tel' => '電話番号',
+        'postcode' => '郵便番号',
+        'address' => '住所',
+        'birthday' => '誕生日',
+        'gender' => '性別',
     ],
 
 ];

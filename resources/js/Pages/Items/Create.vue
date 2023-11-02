@@ -8,6 +8,8 @@ defineProps({
     errors: Array,
 })
 
+// const props =
+
 const form = useForm({
     name:'',
     memo:'',
