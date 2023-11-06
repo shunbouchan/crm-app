@@ -57,17 +57,17 @@ Route::delete(
     [InertiaTestController::class, 'delete']
 )->name('inertia.delete');
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 
-Route::get('/', [AuthenticatedSessionController::class, 'create'])
-    ->name('login');
+// Route::get('/', [AuthenticatedSessionController::class, 'create'])
+//     ->name('login');
 
 Route::get('analysis', [AnalysisController::class, 'index'])->name('analysis');
 
